@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Encurtador de URL</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js"></script>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Encurtador de URL</h1>
+    <div class="url-box">
+      <input type="text" id="originalUrl" placeholder="Digite a URL original aqui..." />
+      <button onclick="shortenUrl()">Encurtar</button>
+    </div>
+    <div id="result" class="result hidden">
+      <p>URL encurtada:</p>
+      <a id="shortUrl" href="#" target="_blank"></a>
+    </div>
+  </div>
+  
+</body>
+</html>
