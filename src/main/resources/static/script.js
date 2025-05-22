@@ -34,50 +34,74 @@ async function shortenUrl() {
 document.addEventListener("DOMContentLoaded", () => {
   const icons = document.querySelectorAll(".tech-icon");
   const container = document.querySelector(".container");
-  const containerRect = container.getBoundingClientRect();
 
   icons.forEach(icon => {
-    let x, y;
+    const iconWidth = icon.clientWidth;
+    const iconHeight = icon.clientHeight;
 
-    do {
-      x = Math.random() * (window.innerWidth - icon.clientWidth);
-      y = Math.random() * (window.innerHeight - icon.clientHeight);
-    } while (
-      x + icon.clientWidth > containerRect.left &&
-      x < containerRect.right &&
-      y + icon.clientHeight > containerRect.top &&
-      y < containerRect.bottom
-    );
+    let x = 0, y = 0;
+    let attempts = 0;
+    const maxAttempts = 100;
+
+    while (attempts < maxAttempts) {
+      x = Math.random() * (window.innerWidth - iconWidth);
+      y = Math.random() * (window.innerHeight - iconHeight);
+
+      const containerRect = container.getBoundingClientRect();
+
+      const iconRect = {
+        left: x,
+        right: x + iconWidth,
+        top: y,
+        bottom: y + iconHeight
+      };
+
+      const intersects =
+        iconRect.right > containerRect.left &&
+        iconRect.left < containerRect.right &&
+        iconRect.bottom > containerRect.top &&
+        iconRect.top < containerRect.bottom;
+
+      if (!intersects) break;
+      attempts++;
+    }
 
     let dx = (Math.random() - 0.5) * 5;
     let dy = (Math.random() - 0.5) * 5;
-
     if (dx === 0) dx = 1;
     if (dy === 0) dy = 1;
 
     const animate = () => {
+      const containerRect = container.getBoundingClientRect();
+
       x += dx;
       y += dy;
 
-      if (x <= 0 || x + icon.clientWidth >= window.innerWidth) dx *= -1;
-      if (y <= 0 || y + icon.clientHeight >= window.innerHeight) dy *= -1;
+      if (x <= 0 || x + iconWidth >= window.innerWidth) dx *= -1;
+      if (y <= 0 || y + iconHeight >= window.innerHeight) dy *= -1;
 
       const iconRect = {
         left: x,
-        right: x + icon.clientWidth,
+        right: x + iconWidth,
         top: y,
-        bottom: y + icon.clientHeight
+        bottom: y + iconHeight
       };
 
-      const intersectsHorizontally =
-        iconRect.right > containerRect.left && iconRect.left < containerRect.right;
-      const intersectsVertically =
-        iconRect.bottom > containerRect.top && iconRect.top < containerRect.bottom;
+      const intersects =
+        iconRect.right > containerRect.left &&
+        iconRect.left < containerRect.right &&
+        iconRect.bottom > containerRect.top &&
+        iconRect.top < containerRect.bottom;
 
-      if (intersectsHorizontally && intersectsVertically) {
+      if (intersects) {
         dx *= -1;
         dy *= -1;
+        x += dx * 2;
+        y += dy * 2;
       }
+
+      x = Math.max(0, Math.min(x, window.innerWidth - iconWidth));
+      y = Math.max(0, Math.min(y, window.innerHeight - iconHeight));
 
       icon.style.transform = `translate(${x}px, ${y}px)`;
       requestAnimationFrame(animate);

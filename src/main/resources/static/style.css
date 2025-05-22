@@ -20,6 +20,7 @@ body {
   justify-content: center;
   height: 100vh;
   padding: 1rem;
+  overflow: hidden;
 }
 
 .container {
@@ -30,6 +31,8 @@ body {
   max-width: 500px;
   width: 100%;
   text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
 h1 {
@@ -86,7 +89,7 @@ button:hover {
   display: block;
   margin-top: 0.5rem;
   color: var(--primary-color);
-  word-break: break-all;
+  word-break: break-word;
   font-size: 1.1rem;
 }
 
@@ -106,4 +109,52 @@ button:hover {
   height: 48px;
   opacity: 0.8;
   transition: transform 0.1s linear;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1.5rem;
+    max-width: 90%;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  input[type="text"], button {
+    font-size: 0.95rem;
+  }
+
+  #shortUrl {
+    font-size: 1rem;
+  }
+
+  .tech-icon {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.3rem;
+  }
+
+  .container {
+    padding: 1rem;
+  }
+
+  input[type="text"], button {
+    font-size: 0.9rem;
+    padding: 0.65rem;
+  }
+
+  #shortUrl {
+    font-size: 0.95rem;
+  }
+
+  .tech-icon {
+    width: 28px;
+    height: 28px;
+  }
 }
