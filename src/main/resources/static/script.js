@@ -7,7 +7,7 @@ async function shortenUrl() {
   }
 
   try {
-    const response = await fetch("http://localhost:8080/url", {
+    const response = await fetch("/url", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -20,7 +20,7 @@ async function shortenUrl() {
     }
 
     const data = await response.json();
-    const shortUrl = `http://localhost:8080/url/${data.shortUrl}`;
+    const shortUrl = `${window.location.origin}/url/${data.shortUrl}`;
 
     document.getElementById("shortUrl").textContent = shortUrl;
     document.getElementById("shortUrl").href = shortUrl;
