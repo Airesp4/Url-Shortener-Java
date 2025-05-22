@@ -2,12 +2,15 @@ package com.airesdev.url_shortener.service;
 
 import java.util.UUID;
 
+import org.springframework.stereotype.Service;
+
 import com.airesdev.url_shortener.dto.UrlDTO;
 import com.airesdev.url_shortener.model.Url;
 import com.airesdev.url_shortener.repository.UrlRepository;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 
+@Service
 public class UrlService {
     
     private final UrlRepository repository;

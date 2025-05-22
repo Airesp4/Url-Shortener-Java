@@ -1,13 +1,13 @@
 package com.airesdev.url_shortener.docs;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.airesdev.url_shortener.dto.UrlDTO;
 import com.airesdev.url_shortener.model.Url;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -26,11 +26,13 @@ public interface UrlControllerDocs {
             @RequestBody UrlDTO urlDto
     );
 
-    @Operation(summary = "Obtém a URL original a partir da short URL")
+    @Operation(summary = "Redireciona para a URL original a partir da short URL")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "URL original retornada com sucesso",
-            content = @Content(schema = @Schema(implementation = String.class))),
+        @ApiResponse(responseCode = "302", description = "Redirecionamento para a URL original",
+            headers = @Header(name = "Location", description = "URL original")),
         @ApiResponse(responseCode = "404", description = "Short URL não encontrada", content = @Content)
     })
-    ResponseEntity<String> getOriginalUrl(@Parameter(description = "Identificador da short URL") @PathVariable String shortUrl);
+    ResponseEntity<Void> getOriginalUrl(
+        @Parameter(description = "Identificador da short URL") String shortUrl
+    );
 }

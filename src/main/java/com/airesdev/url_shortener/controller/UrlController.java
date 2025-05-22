@@ -30,8 +30,11 @@ public class UrlController implements UrlControllerDocs{
     }
 
     @GetMapping("/{shortUrl}")
-    public ResponseEntity<String> getOriginalUrl(@PathVariable String shortUrl) {
+    public ResponseEntity<Void> getOriginalUrl(@PathVariable String shortUrl) {
+        String originalUrl = urlService.findByShortUrl(shortUrl).getOriginalUrl();
 
-        return ResponseEntity.ok(urlService.findByShortUrl(shortUrl).getOriginalUrl());
+        return ResponseEntity.status(302)
+                .header("Location", originalUrl)
+                .build();
     }
 }
