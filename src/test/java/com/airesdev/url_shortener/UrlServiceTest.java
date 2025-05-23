@@ -50,7 +50,7 @@ public class UrlServiceTest {
         assertEquals(originalUrl, saved.getOriginalUrl());
         assertEquals(saved.getOriginalUrl(), captured.getOriginalUrl());
         assertNotNull(saved.getShortUrl());
-        assertEquals(8, saved.getShortUrl().length());
+        assertEquals(9, saved.getShortUrl().length());
         assertTrue(saved.getShortUrl().matches("[a-zA-Z0-9]+"));
     }
 
