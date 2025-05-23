@@ -16,7 +16,6 @@ Este projeto é um encurtador de URLs desenvolvido com **Java (Spring Boot)** no
 - Spring Boot
 - Spring Web
 - MongoDB (via Spring Data)
-- BCrypt (para geração de hash curto)
 - JUnit 5 & Mockito (para testes)
 
 ### Frontend
