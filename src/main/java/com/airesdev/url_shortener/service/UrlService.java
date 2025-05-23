@@ -30,8 +30,10 @@ public class UrlService {
     }
     
     private String generateShortUrl(String originalUrl) {
-        return Base64.getUrlEncoder().withoutPadding()
-            .encodeToString(UUID.nameUUIDFromBytes(originalUrl.getBytes()).toString().getBytes())
+        String input = originalUrl + UUID.randomUUID();
+        return Base64.getUrlEncoder()
+            .withoutPadding()
+            .encodeToString(UUID.nameUUIDFromBytes(input.getBytes()).toString().getBytes())
             .substring(0, 9);
     }
 }
