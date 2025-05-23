@@ -7,7 +7,7 @@ WORKDIR /app
 
 RUN mvn clean package -DskipTests
 
-FROM openjdk:17-alpine
+FROM openjdk:17-jdk-slim
 
 COPY --from=build /app/target/url-shortener-0.0.1-SNAPSHOT.jar /app/app.jar
 
