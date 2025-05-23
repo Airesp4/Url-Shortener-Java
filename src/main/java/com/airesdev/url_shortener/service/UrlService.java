@@ -1,5 +1,6 @@
 package com.airesdev.url_shortener.service;
 
+import java.util.Base64;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -8,7 +9,6 @@ import com.airesdev.url_shortener.dto.UrlDTO;
 import com.airesdev.url_shortener.model.Url;
 import com.airesdev.url_shortener.repository.UrlRepository;
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
 
 @Service
 public class UrlService {
@@ -30,8 +30,8 @@ public class UrlService {
     }
     
     private String generateShortUrl(String originalUrl) {
-        String hash = BCrypt.withDefaults().hashToString(12, (originalUrl + System.currentTimeMillis()).toCharArray());
-
-        return hash.replaceAll("[^a-zA-Z0-9]", "").substring(0, 8);
+        return Base64.getUrlEncoder().withoutPadding()
+            .encodeToString(UUID.nameUUIDFromBytes(originalUrl.getBytes()).toString().getBytes())
+            .substring(0, 9);
     }
 }
