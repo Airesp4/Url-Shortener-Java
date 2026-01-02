@@ -1,4 +1,4 @@
-FROM maven:3.8.4-openjdk-17 AS build
+FROM maven:3.8.8-eclipse-temurin-17 AS build
 
 COPY src /app/src
 COPY pom.xml /app
@@ -6,7 +6,7 @@ WORKDIR /app
 RUN mvn clean package -DskipTests
 
 
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jdk-jammy
 
 RUN apt-get update \
     && apt-get install -y ca-certificates \
