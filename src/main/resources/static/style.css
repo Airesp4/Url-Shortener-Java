@@ -111,6 +111,12 @@ button:hover {
   transition: transform 0.1s linear;
 }
 
+.error {
+  margin-top: 10px;
+  color: #ff4d4f;
+  font-size: 0.9rem;
+}
+
 @media (max-width: 768px) {
   .container {
     padding: 1.5rem;

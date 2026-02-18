@@ -17,12 +17,13 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
 import com.airesdev.url_shortener.dto.UrlDTO;
+import com.airesdev.url_shortener.exception.ShortUrlNotFoundException;
 import com.airesdev.url_shortener.model.Url;
 import com.airesdev.url_shortener.repository.UrlRepository;
 import com.airesdev.url_shortener.service.UrlService;
 
 public class UrlServiceTest {
-    
+
     private UrlRepository repository;
     private UrlService service;
 
@@ -38,8 +39,10 @@ public class UrlServiceTest {
         String originalUrl = "https://google.com";
         UrlDTO dto = new UrlDTO(originalUrl);
 
+        when(repository.save(any(Url.class)))
+                .thenAnswer(invocation -> invocation.getArgument(0));
+
         ArgumentCaptor<Url> captor = ArgumentCaptor.forClass(Url.class);
-        when(repository.save(any(Url.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         Url saved = service.save(dto);
 
@@ -50,8 +53,10 @@ public class UrlServiceTest {
         assertEquals(originalUrl, saved.getOriginalUrl());
         assertEquals(saved.getOriginalUrl(), captured.getOriginalUrl());
         assertNotNull(saved.getShortUrl());
+
         assertEquals(9, saved.getShortUrl().length());
-        assertTrue(saved.getShortUrl().matches("[a-zA-Z0-9]+"));
+
+        assertTrue(saved.getShortUrl().matches("[A-Za-z0-9_-]+"));
     }
 
     @Test
@@ -59,7 +64,9 @@ public class UrlServiceTest {
 
         String shortUrl = "abc12345";
         Url mockUrl = new Url(UUID.randomUUID(), "https://example.com", shortUrl);
-        when(repository.findByShortUrl(shortUrl)).thenReturn(Optional.of(mockUrl));
+
+        when(repository.findByShortUrl(shortUrl))
+                .thenReturn(Optional.of(mockUrl));
 
         Url result = service.findByShortUrl(shortUrl);
 
@@ -72,13 +79,17 @@ public class UrlServiceTest {
     void testFindByShortUrl_ShouldThrowException_WhenNotFound() {
 
         String shortUrl = "notfound";
-        when(repository.findByShortUrl(shortUrl)).thenReturn(Optional.empty());
 
+        when(repository.findByShortUrl(shortUrl))
+                .thenReturn(Optional.empty());
 
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            service.findByShortUrl(shortUrl);
-        });
+        ShortUrlNotFoundException exception =
+                assertThrows(ShortUrlNotFoundException.class,
+                        () -> service.findByShortUrl(shortUrl));
 
-        assertEquals("Short URL não encontrada", exception.getMessage());
+        assertEquals(
+                "Short URL não encontrada: " + shortUrl,
+                exception.getMessage()
+        );
     }
 }

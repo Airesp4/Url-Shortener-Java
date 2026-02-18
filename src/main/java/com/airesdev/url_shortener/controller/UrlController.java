@@ -13,15 +13,14 @@ import com.airesdev.url_shortener.dto.UrlDTO;
 import com.airesdev.url_shortener.model.Url;
 import com.airesdev.url_shortener.service.UrlService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping("/url")
-public class UrlController implements UrlControllerDocs{
+@RequiredArgsConstructor
+public class UrlController implements UrlControllerDocs {
     
     private final UrlService urlService;
-
-    public UrlController(UrlService urlService) {
-        this.urlService = urlService;
-    }
 
     @PostMapping
     public ResponseEntity<Url> createShortUrl(@RequestBody UrlDTO urlDto) {
